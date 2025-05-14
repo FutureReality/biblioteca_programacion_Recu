@@ -1,0 +1,47 @@
+#donde se almacenaran los libros
+biblioteca = HashMap<String, Llibre>()
+
+#desde aqui se llamaran al resto de funciones
+inicio():
+    mientras verdadero:
+	#El limpiar es un clear o cls depende del so
+        LimpiarPantalla()
+        mostrarEnPantalla("Selecciona una opción: (A)gregar, (B)uscar, (P)restar, (R)etornar, (G)uardar, (C)argar, (S)alir")
+
+        UserInput = input()
+
+        por caracter en UserInput:
+	    #Comprobamos que solo contenga letras
+            si caracter no está en (a-z, A-Z):
+                LimpiarPantalla()
+                mostrarEnPantalla("¡No se permiten ni números ni caracteres especiales!")
+                continuar bucle
+
+        UserInput = convertirAMinusculas(UserInput)
+
+	#Se llama a una funcion o aotra
+        opciones:
+            si UserInput == "a" o "agregar":
+                agregar()
+
+            si UserInput == "b" o "buscar":
+                buscar()
+
+            si UserInput == "p" o "prestar":
+                prestar()
+
+            si UserInput == "r" o "retornar":
+                retornar()
+
+            si UserInput == "g" o "guardar":
+                guardar()
+
+            si UserInput == "c" o "cargar":
+                cargar()
+
+            si UserInput == "s" o "salir":
+                salir del programa
+
+            sino:
+                LimpiarPantalla()
+                mostrarEnPantalla(UserInput, " no es una opción válida")
