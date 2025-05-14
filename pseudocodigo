@@ -1,3 +1,32 @@
+#Este sera el que permita al user agregar libros
+agregar():
+    LimpiarPantalla()
+    #Si el usuario en alguno de los campos escribe back vuelve al campo anterior
+    #Si el usuario en alguno de los campos escribe esc, vuelve al menu inicial
+    mostrarEnPantalla("Rellena los siguientes campos. <<back>> para campo anterior <<esc>> para volver al menú")
+
+    isbn = input("ISBN (formato XXX-XXXXX-XXX): ")
+    #Comprobamos que se siga el estandard, si no se cumple no se permite y se reintenta
+    si isbn no cumple con REGEX XXX-XXXXX-XXX:
+        mostrarEnPantalla("ERROR: El ISBN", isbn, "no sigue el formato válido.")
+        volver a agregar()
+
+    si isbn en biblioteca:
+        mostrarEnPantalla("ERROR: El ISBN", isbn, "ya existe.")
+        volver a agregar()
+
+    titulo = input("Título: ")
+    autor = input("Autor: ")
+    estado = "DISPONIBLE"
+
+    #Se agrega el libro al hashmap
+    nuevoLibro = Llibre(isbn, titulo, autor, estado)
+    biblioteca[isbn] = nuevoLibro
+
+    mostrarEnPantalla("Libro agregado con éxito.")
+    esperarTecla()
+
+
 #donde se almacenaran los libros
 biblioteca = HashMap<String, Llibre>()
 
