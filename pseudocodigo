@@ -1,132 +1,3 @@
-
-
-
-#Este sera el que permita al user agregar libros
-agregar():
-    LimpiarPantalla()
-    #Si el usuario en alguno de los campos escribe back vuelve al campo anterior
-    #Si el usuario en alguno de los campos escribe esc, vuelve al menu inicial
-    mostrarEnPantalla("Rellena los siguientes campos. <<back>> para campo anterior <<esc>> para volver al menú")
-
-    isbn = input("ISBN (formato XXX-XXXXX-XXX): ")
-    #Comprobamos que se siga el estandard, si no se cumple no se permite y se reintenta
-    si isbn no cumple con REGEX XXX-XXXXX-XXX:
-        mostrarEnPantalla("ERROR: El ISBN", isbn, "no sigue el formato válido.")
-        volver a agregar()
-
-    si isbn en biblioteca:
-        mostrarEnPantalla("ERROR: El ISBN", isbn, "ya existe.")
-        volver a agregar()
-
-    titulo = input("Título: ")
-    autor = input("Autor: ")
-    estado = "DISPONIBLE"
-
-    #Se agrega el libro al hashmap
-    nuevoLibro = Llibre(isbn, titulo, autor, estado)
-    biblioteca[isbn] = nuevoLibro
-
-    mostrarEnPantalla("Libro agregado con éxito.")
-    esperarTecla()
-
-#Aqui es donde el usuario podra buscar entre los libros almacenados
-buscar():
-    LimpiarPantalla()
-    #Para evitar el casesensitive todo se transforma a diminutiva
-    termino = input("Introduce titulo o parte del titulo a buscar: ").toLowerCase()
-
-    encontrados = []
-    por cada libro en biblioteca:
-	#Como el almacenaje tiene que ser con casesensitive, aqui tambien tenemos que diminutar
-        si libro.titulo.toLowerCase() contiene termino:
-            añadir libro a encontrados
-
-    si encontrados está vacío:
-        mostrarEnPantalla("No se encontro ningun libr con ese titulo.")
-    sino:
-        por cada libro en encontrados:
-            mostrarEnPantalla(libro)
-
-    esperarTecla()
-
--------------------------------------------------------------------------------
-
-#Aqui el usuario podra decidir prestar un libro
-prestar():
-    LimpiarPantalla()
-    isbn = input("Introduce el ISBN del libro que quieres prestar: ")
-
-    si isbn no en biblioteca:
-        mostrarEnPantalla("No existe un libro con ese ISBN.")
-        esperarTecla()
-        return
-
-    #Comprueba si el libro ya estaba prestado anteriormente
-    libro = biblioteca[isbn]
-    si libro.estado == "EN PRESTEC":
-        mostrarEnPantalla("Ese libro ya esta prestado.")
-    sino:
-        libro.estado = "EN PRESTEC"
-        mostrarEnPantalla("Prestamo realizado con exito.")
-
-    esperarTecla()
-
-----------------------------------------------------------------------------------
-#Aqui el usuario devuelve el libro prestado
-retornar():
-    LimpiarPantalla()
-    isbn = input("Introduce el ISBN del libro a retornar: ")
-
-    si isbn no en biblioteca:
-        mostrarEnPantalla("No existe un libro con ese ISBN.")
-        esperarTecla()
-        return
-
-    #Se comprueba si el libro ya estaba prestado en un priciop
-    libro = biblioteca[isbn]
-    si libro.estado == "DISPONIBLE":
-        mostrarEnPantalla("El libro ya estd disponible.")
-    sino:
-        libro.estado = "DISPONIBLE"
-        mostrarEnPantalla("Libro retornado correctamente.")
-
-    esperarTecla()
-----------------------------------------------------------------------------------
-
-#Esta es importante, aqui permitimos guardar los el archivo CSV de los libros actuales
-guardar():
-    LimpiarPantalla()
-    abrir archivo "biblioteca.csv" en modo escritura
-    por cada libro en biblioteca:
-        escribir en archivo: libro.isbn + "," + libro.titulo + "," + libro.autor + "," + libro.estado
-    cerrar archivo
-    mostrarEnPantalla("Datos guardados correctamente.")
-    esperarTecla()
-
---------------------------------------------------------
-
-#Esta tambien es importante, ya que es donde cargamos el archivo CSV
-cargar():
-    LimpiarPantalla()
-    si archivo "biblioteca.csv" no existe:
-        mostrarEnPantalla("No se encontró el archivo.")
-        esperarTecla()
-        return
-
-    abrir archivo "biblioteca.csv" en modo lectura
-    por cada línea en archivo:
-        dividir línea por ","
-        isbn, titulo, autor, estado = partes
-        nuevoLibro = Llibre(isbn, titulo, autor, estado)
-        biblioteca[isbn] = nuevoLibro
-    cerrar archivo
-    mostrarEnPantalla("Datos cargados correctamente.")
-    esperarTecla()
-	
-
-----------------------------------------------------------------------------------
-
-
 #donde se almacenaran los libros
 biblioteca = HashMap<String, Llibre>()
 
@@ -135,15 +6,15 @@ inicio():
     mientras verdadero:
 	#El limpiar es un clear o cls depende del so
         LimpiarPantalla()
-        mostrarEnPantalla("Selecciona una opción: (A)gregar, (B)uscar, (P)restar, (R)etornar, (G)uardar, (C)argar, (S)alir")
+        mostrarEnPantalla("Selecciona una opcion: (A)gregar, (B)uscar, (P)restar, (R)etornar, (G)uardar, (C)argar, (S)alir")
 
         UserInput = input()
 
         por caracter en UserInput:
 	    #Comprobamos que solo contenga letras
-            si caracter no está en (a-z, A-Z):
+            si caracter no esta en (a-z, A-Z):
                 LimpiarPantalla()
-                mostrarEnPantalla("¡No se permiten ni números ni caracteres especiales!")
+                mostrarEnPantalla("¡No se permiten ni numeros ni caracteres especiales!")
                 continuar bucle
 
         UserInput = convertirAMinusculas(UserInput)
@@ -173,4 +44,162 @@ inicio():
 
             sino:
                 LimpiarPantalla()
-                mostrarEnPantalla(UserInput, " no es una opción válida")
+                mostrarEnPantalla(UserInput, " no es una opcion valida")
+
+--------------------------------------------------------
+
+#Este sera el que permita al user agregar libros
+agregar():
+    LimpiarPantalla()
+    #Si el usuario en alguno de los campos escribe back vuelve al campo anterior
+    #Si el usuario en alguno de los campos escribe esc, vuelve al menu inicial
+    mostrarEnPantalla("Rellena los siguientes campos. <<back>> para campo anterior <<esc>> para volver al menu")
+
+    intentar:
+        isbn = input("ISBN (formato XXX-XXXXX-XXX): ")
+        #Comprobamos que se siga el estandard, si no se cumple no se permite y se reintenta
+        si isbn no cumple con REGEX XXX-XXXXX-XXX:
+            mostrarEnPantalla("ERROR: El ISBN", isbn, "no sigue el formato valido.")
+            volver a agregar()
+
+        si isbn en biblioteca:
+            mostrarEnPantalla("ERROR: El ISBN", isbn, "ya existe.")
+            volver a agregar()
+
+        titulo = input("Titulo: ")
+        autor = input("Autor: ")
+        estado = "DISPONIBLE"
+
+        #Se agrega el libro al hashmap
+        nuevoLibro = Llibre(isbn, titulo, autor, estado)
+        biblioteca[isbn] = nuevoLibro
+
+        mostrarEnPantalla("Libro agregado con exito.")
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Se ha producido un error al agregar el libro.")
+        esperarTecla()
+
+--------------------------------------------------------
+
+#Aqui es donde el usuario podra buscar entre los libros almacenados
+buscar():
+    LimpiarPantalla()
+    #Para evitar el casesensitive todo se transforma a diminutiva
+    intentar:
+        termino = input("Introduce titulo o parte del titulo a buscar: ").toLowerCase()
+
+        encontrados = []
+        por cada libro en biblioteca:
+	    #Como el almacenaje tiene que ser con casesensitive, aqui tambien tenemos que diminutar
+            si libro.titulo.toLowerCase() contiene termino:
+                añadir libro a encontrados
+
+        si encontrados esta vacio:
+            mostrarEnPantalla("No se encontro ningun libr con ese titulo.")
+        sino:
+            por cada libro en encontrados:
+                mostrarEnPantalla(libro)
+
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Error durante la busqueda.")
+        esperarTecla()
+
+--------------------------------------------------------
+
+#Aqui el usuario podra decidir prestar un libro
+prestar():
+    LimpiarPantalla()
+    intentar:
+        isbn = input("Introduce el ISBN del libro que quieres prestar: ")
+
+        si isbn no en biblioteca:
+            mostrarEnPantalla("No existe un libro con ese ISBN.")
+            esperarTecla()
+            return
+
+        #Comprueba si el libro ya estaba prestado anteriormente
+        libro = biblioteca[isbn]
+        si libro.estado == "EN PRESTEC":
+            mostrarEnPantalla("Ese libro ya esta prestado.")
+        sino:
+            libro.estado = "EN PRESTEC"
+            mostrarEnPantalla("Prestamo realizado con exito.")
+
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Error al procesar el prestamo.")
+        esperarTecla()
+
+--------------------------------------------------------
+
+#Aqui el usuario devuelve el libro prestado
+retornar():
+    LimpiarPantalla()
+    intentar:
+        isbn = input("Introduce el ISBN del libro a retornar: ")
+
+        si isbn no en biblioteca:
+            mostrarEnPantalla("No existe un libro con ese ISBN.")
+            esperarTecla()
+            return
+
+        #Se comprueba si el libro ya estaba prestado en un priciop
+        libro = biblioteca[isbn]
+        si libro.estado == "DISPONIBLE":
+            mostrarEnPantalla("El libro ya estd disponible.")
+        sino:
+            libro.estado = "DISPONIBLE"
+            mostrarEnPantalla("Libro retornado correctamente.")
+
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Error al retornar el libro.")
+        esperarTecla()
+
+--------------------------------------------------------
+
+#Esta es importante, aqui permitimos guardar los el archivo CSV de los libros actuales
+guardar():
+    LimpiarPantalla()
+    intentar:
+        abrir archivo "biblioteca.csv" en modo escritura
+        por cada libro en biblioteca:
+            escribir en archivo: libro.isbn + "," + libro.titulo + "," + libro.autor + "," + libro.estado
+        cerrar archivo
+        mostrarEnPantalla("Datos guardados correctamente.")
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Error al guardar los datos en el archivo.")
+        esperarTecla()
+
+--------------------------------------------------------
+
+#Esta tambien es importante, ya que es donde cargamos el archivo CSV
+cargar():
+    LimpiarPantalla()
+    intentar:
+        si archivo "biblioteca.csv" no existe:
+            mostrarEnPantalla("No se encontro el archivo.")
+            esperarTecla()
+            return
+
+        abrir archivo "biblioteca.csv" en modo lectura
+        por cada linea en archivo:
+            dividir linea por ","
+            isbn, titulo, autor, estado = partes
+            nuevoLibro = Llibre(isbn, titulo, autor, estado)
+            biblioteca[isbn] = nuevoLibro
+        cerrar archivo
+        mostrarEnPantalla("Datos cargados correctamente.")
+        esperarTecla()
+
+    capturar error:
+        mostrarEnPantalla("Error al cargar los datos desde el archivo.")
+        esperarTecla()
