@@ -1,5 +1,4 @@
-#donde se almacenaran los libros
-biblioteca = HashMap<String, Llibre>()
+
 
 
 #Este sera el que permita al user agregar libros
@@ -50,7 +49,51 @@ buscar():
 
     esperarTecla()
 
+-------------------------------------------------------------------------------
 
+#Aqui el usuario podra decidir prestar un libro
+prestar():
+    LimpiarPantalla()
+    isbn = input("Introduce el ISBN del libro que quieres prestar: ")
+
+    si isbn no en biblioteca:
+        mostrarEnPantalla("No existe un libro con ese ISBN.")
+        esperarTecla()
+        return
+
+    #Comprueba si el libro ya estaba prestado anteriormente
+    libro = biblioteca[isbn]
+    si libro.estado == "EN PRESTEC":
+        mostrarEnPantalla("Ese libro ya esta prestado.")
+    sino:
+        libro.estado = "EN PRESTEC"
+        mostrarEnPantalla("Prestamo realizado con exito.")
+
+    esperarTecla()
+
+----------------------------------------------------------------------------------
+#Aqui el usuario devuelve el libro prestado
+retornar():
+    LimpiarPantalla()
+    isbn = input("Introduce el ISBN del libro a retornar: ")
+
+    si isbn no en biblioteca:
+        mostrarEnPantalla("No existe un libro con ese ISBN.")
+        esperarTecla()
+        return
+
+    #Se comprueba si el libro ya estaba prestado en un priciop
+    libro = biblioteca[isbn]
+    si libro.estado == "DISPONIBLE":
+        mostrarEnPantalla("El libro ya estd disponible.")
+    sino:
+        libro.estado = "DISPONIBLE"
+        mostrarEnPantalla("Libro retornado correctamente.")
+
+    esperarTecla()
+----------------------------------------------------------------------------------
+#donde se almacenaran los libros
+biblioteca = HashMap<String, Llibre>()
 
 #desde aqui se llamaran al resto de funciones
 inicio():
