@@ -92,6 +92,41 @@ retornar():
 
     esperarTecla()
 ----------------------------------------------------------------------------------
+
+#Esta es importante, aqui permitimos guardar los el archivo CSV de los libros actuales
+guardar():
+    LimpiarPantalla()
+    abrir archivo "biblioteca.csv" en modo escritura
+    por cada libro en biblioteca:
+        escribir en archivo: libro.isbn + "," + libro.titulo + "," + libro.autor + "," + libro.estado
+    cerrar archivo
+    mostrarEnPantalla("Datos guardados correctamente.")
+    esperarTecla()
+
+--------------------------------------------------------
+
+#Esta tambien es importante, ya que es donde cargamos el archivo CSV
+cargar():
+    LimpiarPantalla()
+    si archivo "biblioteca.csv" no existe:
+        mostrarEnPantalla("No se encontró el archivo.")
+        esperarTecla()
+        return
+
+    abrir archivo "biblioteca.csv" en modo lectura
+    por cada línea en archivo:
+        dividir línea por ","
+        isbn, titulo, autor, estado = partes
+        nuevoLibro = Llibre(isbn, titulo, autor, estado)
+        biblioteca[isbn] = nuevoLibro
+    cerrar archivo
+    mostrarEnPantalla("Datos cargados correctamente.")
+    esperarTecla()
+	
+
+----------------------------------------------------------------------------------
+
+
 #donde se almacenaran los libros
 biblioteca = HashMap<String, Llibre>()
 
