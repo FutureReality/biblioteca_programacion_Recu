@@ -1,3 +1,7 @@
+#donde se almacenaran los libros
+biblioteca = HashMap<String, Llibre>()
+
+
 #Este sera el que permita al user agregar libros
 agregar():
     LimpiarPantalla()
@@ -26,9 +30,27 @@ agregar():
     mostrarEnPantalla("Libro agregado con éxito.")
     esperarTecla()
 
+#Aqui es donde el usuario podra buscar entre los libros almacenados
+buscar():
+    LimpiarPantalla()
+    #Para evitar el casesensitive todo se transforma a diminutiva
+    termino = input("Introduce titulo o parte del titulo a buscar: ").toLowerCase()
 
-#donde se almacenaran los libros
-biblioteca = HashMap<String, Llibre>()
+    encontrados = []
+    por cada libro en biblioteca:
+	#Como el almacenaje tiene que ser con casesensitive, aqui tambien tenemos que diminutar
+        si libro.titulo.toLowerCase() contiene termino:
+            añadir libro a encontrados
+
+    si encontrados está vacío:
+        mostrarEnPantalla("No se encontro ningun libr con ese titulo.")
+    sino:
+        por cada libro en encontrados:
+            mostrarEnPantalla(libro)
+
+    esperarTecla()
+
+
 
 #desde aqui se llamaran al resto de funciones
 inicio():
